@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#ffeeeeee"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/color_bg_date_title"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/popupwindow_calendar_last_month"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="?android:actionBarItemBackground"
+                android:src="@mipmap/ico_left_arrow" />
+
+            <Button
+                android:id="@+id/popupwindow_calendar_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:targetApi="lollipop" />
+
+            <Button
+                android:id="@+id/popupwindow_calendar_year"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:targetApi="lollipop" />
+
+
+            <ImageButton
+                android:id="@+id/popupwindow_calendar_next_month"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="?android:actionBarItemBackground"
+                android:src="@mipmap/ico_right_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/popupwindow_calendar_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#eeeeee" />
+
+            <com.lion.calendar.view.KCalendar
+                android:layout_weight="1"
+                android:id="@+id/popupwindow_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
+            <com.lion.calendar.view.MonthCalendar
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:id="@+id/popupwindow_month_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"/>
+            <com.lion.calendar.view.YearCalendar
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:id="@+id/popupwindow_year_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#eeeeee" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee" />
+
+    </LinearLayout>
+
+</RelativeLayout>
