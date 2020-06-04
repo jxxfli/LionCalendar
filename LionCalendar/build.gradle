@@ -4,8 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def siteUrl = 'https://code.aliyun.com/1789358380/LionCalendar'   // 项目的主页
-def gitUrl = 'https://code.aliyun.com/1789358380/LionCalendar.git'   // Git仓库的url
+def siteUrl = 'https://github.com/jxxfli/LionCalendar'   // 项目的主页
+def gitUrl = 'https://github.com/jxxfli/LionCalendar.git'   // Git仓库的url
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 version = "1.0.0" //发布版本号
@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
 }
 
 

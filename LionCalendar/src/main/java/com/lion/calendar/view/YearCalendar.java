@@ -3,6 +3,7 @@ package com.lion.calendar.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.widget.ViewFlipper;
 
 import com.lion.calendar.R;
 import com.lion.calendar.util.ToastUtil;
+
 
 import static com.lion.calendar.util.DateUtil.getLocalYear;
 
@@ -99,6 +101,11 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
 
     }
 
+    /**
+     * 根据具体的某年，展示一个范围年历
+     *
+     * @param year
+     */
     public void showCalendar(int year) {
         this.calendarYear = year;
         //计算规则 最小年份限制为1970年
@@ -194,6 +201,9 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
             }
         }
     }
+
+
+
 
     /**
      * onClick接口回调

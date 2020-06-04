@@ -1,5 +1,6 @@
 package com.lion.calendar.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -123,7 +124,25 @@ public class DateUtil {
      * 获取日期里的年 yyyy-MM-dd
      */
     public static int getYearForDate(String dateStr) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return getYearForDate(dateStr,"yyyy-MM-dd");
+    }
+    public static int getYearForDateSmart(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) return 0;
+        String formatStr;
+        String dateArr[] =dateStr.split("-");
+        if (dateArr.length>2){
+            formatStr="yyyy-MM-dd";
+        }else{
+            formatStr="yyyy-MM";
+        }
+        return getYearForDate(dateStr,formatStr);
+    }
+    /**
+     * 获取日期里的年
+     * @param formatStr 格式
+     */
+    public static int getYearForDate(String dateStr,String formatStr) {
+        SimpleDateFormat format = new SimpleDateFormat(formatStr);
         Date date;
         try {
             date = format.parse(dateStr);

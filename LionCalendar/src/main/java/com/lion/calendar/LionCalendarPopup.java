@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import static com.lion.calendar.constant.SelectMoed.MODE_WEEK;
  */
 public class LionCalendarPopup extends PopupWindow {
 
-    private int mYear = new Date().getYear() + 1900;
+    private int mYear ;
 
     private static Context mContext;
     private static View mAnchorView;
@@ -82,6 +83,10 @@ public class LionCalendarPopup extends PopupWindow {
 
     public LionCalendarPopup setSetelectDate(String selectDate) {
         this.mSelectDate = selectDate;
+        if (TextUtils.isEmpty(selectDate))
+            mYear = DateUtil.getLocalYear();
+        else
+            mYear =  DateUtil.getYearForDateSmart(selectDate);
         return this;
     }
 
@@ -227,6 +232,8 @@ public class LionCalendarPopup extends PopupWindow {
                     String date = year + "-" + month;//最后返回给全局 date
                     monthCalendar.removeAllBgColor();
                     monthCalendar.setCalendarDayBgColor(date, R.drawable.calendar_date_focused);
+
+                    mYear = year;
                     dismiss();
 
                     if (getOnCalendarClickListener() != null) {

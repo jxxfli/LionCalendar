@@ -134,14 +134,14 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
                 //col.setBackgroundResource(R.drawable.calendar_day_bg);
                 row.addView(col);
 
-                //                TextView view = new TextView(getContext());
-                //                view.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
-                //                //view.setBackgroundResource(R.drawable.calendar_day_bg);
-                //                row.addView(view);
-                //
-                //                view.setGravity(Gravity.CENTER);
-                //                view.setTextSize(15);
-                //                view.setBackgroundColor(Color.TRANSPARENT);
+//                                TextView view = new TextView(getContext());
+//                                view.setLayoutParams(new LinearLayout.LayoutParams(DisplayUtil.dip2px(getContext(), 40), DisplayUtil.dip2px(getContext(), 40)));
+//                                //view.setBackgroundResource(R.drawable.calendar_day_bg);
+//                                row.addView(view);
+//
+//                                view.setGravity(Gravity.CENTER);
+//                                view.setTextSize(15);
+//                                view.setBackgroundColor(Color.TRANSPARENT);
 
 
                 // 给每一个日子加上监听
@@ -202,23 +202,24 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
                     view = new TextView(getContext());
                     view.setLayoutParams(params);
                     view.setGravity(Gravity.CENTER);
+                    view.setTextSize(15);
+                    view.setBackgroundColor(Color.TRANSPARENT);
                     group.addView(view);
                 }
-                view.setGravity(Gravity.CENTER);
-                view.setTextSize(15);
-                view.setBackgroundColor(Color.TRANSPARENT);
 
+//                TextView view = getMonthTextView(i,j);
 
                 //monthDates[i][j] = DateUtil.getCNMothon(month);//一月
                 monthDates[i][j] = month + "";//1月
                 view.setText(monthDates[i][j]);
+                //设置可选不可选状态下的字体颜色
                 if (calendarYear < getLocalYear() || (calendarYear == getLocalYear() && month <= getLocalMonth())) {
                     view.setTextColor(COLOR_TX_NORMAL_MONTH);
                 } else {
                     view.setTextColor(COLOR_TX_CANT_SELECT_MONTH);
                 }
 
-                // 设置日期背景色
+                // 设置选中日期背景色
                 if (dayBgColorMap.get(calendarYear + "-" + monthDates[i][j]) != null) {
                     view.setTextColor(Color.WHITE);
                     view.setBackgroundResource(dayBgColorMap.get(calendarYear + "-" + monthDates[i][j]));
@@ -340,6 +341,9 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      */
     private RelativeLayout getMonthView(int row, int col) {
         return (RelativeLayout) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
+    }
+    private TextView getMonthTextView(int row, int col) {
+        return (TextView) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
 
     /**
