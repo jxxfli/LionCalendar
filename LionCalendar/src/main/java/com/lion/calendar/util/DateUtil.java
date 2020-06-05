@@ -124,25 +124,28 @@ public class DateUtil {
      * 获取日期里的年 yyyy-MM-dd
      */
     public static int getYearForDate(String dateStr) {
-        return getYearForDate(dateStr,"yyyy-MM-dd");
+        return getYearForDate(dateStr, "yyyy-MM-dd");
     }
+
     public static int getYearForDateSmart(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) return 0;
         String formatStr;
-        String dateArr[] =dateStr.split("-");
-        if (dateArr.length>2){
-            formatStr="yyyy-MM-dd";
-        }else{
-            formatStr="yyyy-MM";
+        String dateArr[] = dateStr.split("-");
+        if (dateArr.length > 2) {
+            formatStr = "yyyy-MM-dd";
+        } else {
+            formatStr = "yyyy-MM";
         }
-        return getYearForDate(dateStr,formatStr);
+        return getYearForDate(dateStr, formatStr);
     }
+
     /**
      * 获取日期里的年
-     * @param dateStr 日期
+     *
+     * @param dateStr   日期
      * @param formatStr 格式
      */
-    public static int getYearForDate(String dateStr,String formatStr) {
+    public static int getYearForDate(String dateStr, String formatStr) {
         SimpleDateFormat format = new SimpleDateFormat(formatStr);
         Date date;
         try {
@@ -159,10 +162,11 @@ public class DateUtil {
 
     /**
      * 获取日期里的月
-     * @param dateStr 日期
+     *
+     * @param dateStr   日期
      * @param formatStr 格式
      */
-    public static String getYearMonthForDate(String dateStr,String formatStr) {
+    public static String getYearMonthForDate(String dateStr, String formatStr) {
         SimpleDateFormat format = new SimpleDateFormat(formatStr);
         Date date;
         try {
@@ -175,20 +179,22 @@ public class DateUtil {
         }
         return "";
     }
+
     public static String getYearMonthForDateSmart(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) return "";
         String formatStr;
-        String dateArr[] =dateStr.split("-");
-        if (dateArr.length>2){
-            formatStr="yyyy-MM-dd";
-        }else{
-            formatStr="yyyy-MM";
+        String dateArr[] = dateStr.split("-");
+        if (dateArr.length > 2) {
+            formatStr = "yyyy-MM-dd";
+        } else {
+            formatStr = "yyyy-MM";
         }
-        return getYearMonthForDate(dateStr,formatStr);
+        return getYearMonthForDate(dateStr, formatStr);
     }
 
     /**
      * string转date
+     *
      * @param dateStr
      * @return
      */
@@ -245,6 +251,7 @@ public class DateUtil {
 
     /**
      * 获取当前时间为本月的第几周
+     *
      * @param date
      * @return
      */
@@ -262,9 +269,8 @@ public class DateUtil {
             day = day - 1;
         }
         //Log.e("--->", "今天是本月的第" + (week+1) + "周" + ",星期" + (day));
-        return week+1;
+        return week + 1;
     }
-
 
 
     /**
@@ -273,7 +279,7 @@ public class DateUtil {
      * @param date
      * @return
      */
-    public static  String getWeek(Date date) {
+    public static String getWeek(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("E");
         String week = sdf.format(date);
         return week;

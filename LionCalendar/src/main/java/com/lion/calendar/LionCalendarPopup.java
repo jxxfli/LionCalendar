@@ -35,15 +35,15 @@ import static com.lion.calendar.constant.SelectMoed.MODE_WEEK;
  */
 public class LionCalendarPopup extends PopupWindow {
 
-    private int mYear ;
+    private int mYear;
 
     private static Context mContext;
     private static View mAnchorView;
     private static SelectMoed mSelectMode;
     private static String mSelectDate;
-    private static boolean mShowYearSelect=true;//是否显示年已选标记
-    private static boolean mShowMonthSelect=true;//是否显示月已选标记
-    private static boolean mShowDaySelect=true;//是否显示日已选标记
+    private static boolean mShowYearSelect = true;//是否显示年已选标记
+    private static boolean mShowMonthSelect = true;//是否显示月已选标记
+    private static boolean mShowDaySelect = true;//是否显示日已选标记
 
     private boolean isDwon;
 
@@ -89,12 +89,13 @@ public class LionCalendarPopup extends PopupWindow {
         if (TextUtils.isEmpty(selectDate))
             mYear = DateUtil.getLocalYear();
         else
-            mYear =  DateUtil.getYearForDateSmart(selectDate);
+            mYear = DateUtil.getYearForDateSmart(selectDate);
         return this;
     }
 
     /**
      * 是否显示已选日期标记 总开关
+     *
      * @param showSelect
      * @return
      */
@@ -107,6 +108,7 @@ public class LionCalendarPopup extends PopupWindow {
 
     /**
      * 是否显示年已选标记
+     *
      * @param showYearSelect
      * @return
      */
@@ -117,6 +119,7 @@ public class LionCalendarPopup extends PopupWindow {
 
     /**
      * 是否显示月已选标记
+     *
      * @param showMonthSelect
      * @return
      */
@@ -127,6 +130,7 @@ public class LionCalendarPopup extends PopupWindow {
 
     /**
      * 是否显示日已选标记
+     *
      * @param showDaySelect
      * @return
      */
@@ -373,7 +377,7 @@ public class LionCalendarPopup extends PopupWindow {
             @Override
             public void onClick(View view) {
                 if (yearCalendar.getVisibility() == GONE) {
-                    yearCalendar.showCalendarDayBgColor(mYear,R.drawable.calendar_date_focused);
+                    yearCalendar.showCalendarDayBgColor(mYear, R.drawable.calendar_date_focused);
                     yearCalendar.setVisibility(View.VISIBLE);
                     calendar.setVisibility(GONE);
                     monthCalendar.setVisibility(GONE);

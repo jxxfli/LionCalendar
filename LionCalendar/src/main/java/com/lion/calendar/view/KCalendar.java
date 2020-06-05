@@ -364,12 +364,12 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                         }
 
                         if (mShowDaySelect)
-                        // 上面首先设置了一下默认的"当天"背景色，当有特殊需求时，才给当日填充背景色
-                        // 设置日期背景色
-                        if (dayBgColorMap.get(dates[i][j]) != null) {
-                            view.setTextColor(Color.WHITE);
-                            view.setBackgroundResource(dayBgColorMap.get(dates[i][j]));
-                        }
+                            // 上面首先设置了一下默认的"当天"背景色，当有特殊需求时，才给当日填充背景色
+                            // 设置日期背景色
+                            if (dayBgColorMap.get(dates[i][j]) != null) {
+                                view.setTextColor(Color.WHITE);
+                                view.setBackgroundResource(dayBgColorMap.get(dates[i][j]));
+                            }
                         // 设置标记
                         setMarker(group, i, j);
                         day++;
@@ -916,6 +916,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
 
     /**
      * 是否显示已选日标记
+     *
      * @param showDaySelect
      * @return
      */

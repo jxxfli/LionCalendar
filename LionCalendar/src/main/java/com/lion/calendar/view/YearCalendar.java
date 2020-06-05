@@ -230,18 +230,17 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
                 }
 
                 if (mShowYearSelect)
-                // 设置选中日期背景色
-                if (dayBgColorMap.get(yearDates[i][j]) != null) {
-                    view.setTextColor(Color.WHITE);
-                    view.setBackgroundResource(dayBgColorMap.get( yearDates[i][j]));
-                } else {
-                    view.setBackgroundColor(Color.TRANSPARENT);
-                }
+                    // 设置选中日期背景色
+                    if (dayBgColorMap.get(yearDates[i][j]) != null) {
+                        view.setTextColor(Color.WHITE);
+                        view.setBackgroundResource(dayBgColorMap.get(yearDates[i][j]));
+                    } else {
+                        view.setBackgroundColor(Color.TRANSPARENT);
+                    }
                 year++;
             }
         }
     }
-
 
 
     /**
@@ -252,7 +251,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      */
     public void showCalendarDayBgColor(int year, int color) {
         removeAllBgColor();
-        dayBgColorMap.put(year+"", color);
+        dayBgColorMap.put(year + "", color);
         showCalendar(year);
     }
 
@@ -345,6 +344,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
     private RelativeLayout getYearView(int row, int col) {
         return (RelativeLayout) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
+
     private TextView getYearTextView(int row, int col) {
         return (TextView) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
@@ -365,9 +365,9 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
     }
 
 
-
     /**
      * 是否显示已选年份标记
+     *
      * @param showYearSelect
      * @return
      */

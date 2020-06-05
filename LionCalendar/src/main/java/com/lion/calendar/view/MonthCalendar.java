@@ -224,18 +224,19 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
                     view.setTextColor(COLOR_TX_CANT_SELECT_MONTH);
                 }
 
-                if (mShowMonthSelect){
-                // 设置选中日期背景色
-                String mapKey = calendarYear + "-" +monthDates[i][j];
-                if (Integer.parseInt(monthDates[i][j])<=10){
-                    mapKey = calendarYear + "-0"+monthDates[i][j];
+                if (mShowMonthSelect) {
+                    // 设置选中日期背景色
+                    String mapKey = calendarYear + "-" + monthDates[i][j];
+                    if (Integer.parseInt(monthDates[i][j]) <= 10) {
+                        mapKey = calendarYear + "-0" + monthDates[i][j];
+                    }
+                    if (dayBgColorMap.get(mapKey) != null) {
+                        view.setTextColor(Color.WHITE);
+                        view.setBackgroundResource(dayBgColorMap.get(mapKey));
+                    } else {
+                        view.setBackgroundColor(Color.TRANSPARENT);
+                    }
                 }
-                if (dayBgColorMap.get(mapKey) != null) {
-                    view.setTextColor(Color.WHITE);
-                    view.setBackgroundResource(dayBgColorMap.get(mapKey));
-                } else {
-                    view.setBackgroundColor(Color.TRANSPARENT);
-                }}
                 month++;
             }
         }
@@ -249,9 +250,9 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      * @param color
      */
     public void showCalendarDayBgColor(String date, int color) {
-        if (!TextUtils.isEmpty(date)&&!"0".equals(date)) {
-        removeAllBgColor();
-        dayBgColorMap.put(date, color);
+        if (!TextUtils.isEmpty(date) && !"0".equals(date)) {
+            removeAllBgColor();
+            dayBgColorMap.put(date, color);
             try {
                 int years = DateUtil.getYearForDateSmart(date);//Integer.parseInt(date.substring(0, date.indexOf("-")));
                 setCandarYear(years);
@@ -294,7 +295,7 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      */
     public synchronized void nextMonthCalendar() {
         if (calendarYear >= getLocalYear()) {
-            ToastUtil.showShortToast(context,"已是最大年份");
+            ToastUtil.showShortToast(context, "已是最大年份");
             return;
         }
         // 改变年历上下顺序
@@ -323,7 +324,7 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      */
     public synchronized void lastMonthCalendar() {
         if (calendarYear <= 1970) {
-            ToastUtil.showShortToast(context,"已是最小年份");
+            ToastUtil.showShortToast(context, "已是最小年份");
             return;
         }
         if (currentCalendar == firstCalendar) {
@@ -353,6 +354,7 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
     private RelativeLayout getMonthView(int row, int col) {
         return (RelativeLayout) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
+
     private TextView getMonthTextView(int row, int col) {
         return (TextView) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
@@ -371,6 +373,7 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
 
     /**
      * 是否显示已选月份标记
+     *
      * @param showMonthSelect
      * @return
      */
