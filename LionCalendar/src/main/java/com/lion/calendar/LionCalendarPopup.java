@@ -41,6 +41,9 @@ public class LionCalendarPopup extends PopupWindow {
     private static View mAnchorView;
     private static SelectMoed mSelectMode;
     private static String mSelectDate;
+    private static boolean mShowYearSelect=true;//是否显示年已选标记
+    private static boolean mShowMonthSelect=true;//是否显示月已选标记
+    private static boolean mShowDaySelect=true;//是否显示日已选标记
 
     private boolean isDwon;
 
@@ -90,6 +93,48 @@ public class LionCalendarPopup extends PopupWindow {
         return this;
     }
 
+    /**
+     * 是否显示已选日期标记 总开关
+     * @param showSelect
+     * @return
+     */
+    public LionCalendarPopup setShowSelect(boolean showSelect) {
+        setShowYearSelect(showSelect);
+        setShowMonthSelect(showSelect);
+        setShowDaySelect(showSelect);
+        return this;
+    }
+
+    /**
+     * 是否显示年已选标记
+     * @param showYearSelect
+     * @return
+     */
+    public LionCalendarPopup setShowYearSelect(boolean showYearSelect) {
+        this.mShowYearSelect = showYearSelect;
+        return this;
+    }
+
+    /**
+     * 是否显示月已选标记
+     * @param showMonthSelect
+     * @return
+     */
+    public LionCalendarPopup setShowMonthSelect(boolean showMonthSelect) {
+        this.mShowMonthSelect = showMonthSelect;
+        return this;
+    }
+
+    /**
+     * 是否显示日已选标记
+     * @param showDaySelect
+     * @return
+     */
+    public LionCalendarPopup setShowDaySelect(boolean showDaySelect) {
+        this.mShowDaySelect = showDaySelect;
+        return this;
+    }
+
     public static View getAnchorView() {
         return mAnchorView;
     }
@@ -132,6 +177,10 @@ public class LionCalendarPopup extends PopupWindow {
         //年历
         final YearCalendar yearCalendar = (YearCalendar) view.findViewById(R.id.popupwindow_year_calendar);
 
+        //是否显示已选日期标记
+        calendar.setShowDaySelect(mShowDaySelect);
+        monthCalendar.setShowMonthSelect(mShowMonthSelect);
+        yearCalendar.setShowYearSelect(mShowYearSelect);
 
         popupwindow_calendar_year.setText(calendar.getCalendarYear() + "");
         //popupwindow_calendar_month.setText(getCNMothon(calendar.getCalendarMonth()));//一月
@@ -167,7 +216,6 @@ public class LionCalendarPopup extends PopupWindow {
             popupwindow_calendar_year.setVisibility(VISIBLE);
             popupwindow_calendar_month.setVisibility(GONE);
 
-            monthCalendar.setCalendarDayBgColor(getSelectDate(), R.drawable.calendar_date_focused);
         } else {
             calendar.setVisibility(VISIBLE);
             monthCalendar.setVisibility(GONE);
@@ -176,6 +224,8 @@ public class LionCalendarPopup extends PopupWindow {
             popupwindow_calendar_year.setVisibility(VISIBLE);
             popupwindow_calendar_month.setVisibility(VISIBLE);
         }
+        //设置选中的月份
+        monthCalendar.showCalendarDayBgColor(DateUtil.getYearMonthForDateSmart(getSelectDate()), R.drawable.calendar_date_focused);
 
 
             /*List<String> list = new ArrayList<String>(); //设置标记列表
@@ -230,8 +280,7 @@ public class LionCalendarPopup extends PopupWindow {
 
                 if (getSelectMode() == MODE_MONTH) {
                     String date = year + "-" + month;//最后返回给全局 date
-                    monthCalendar.removeAllBgColor();
-                    monthCalendar.setCalendarDayBgColor(date, R.drawable.calendar_date_focused);
+                    monthCalendar.showCalendarDayBgColor(date, R.drawable.calendar_date_focused);
 
                     mYear = year;
                     dismiss();
@@ -278,8 +327,8 @@ public class LionCalendarPopup extends PopupWindow {
         //监听年历改变（翻页）事件
         yearCalendar.setOnCalendarDateChangedListener(new YearCalendar.OnCalendarDateChangedListener() {
             @Override
-            public void onCalendarDateChanged(int year) {
-                popupwindow_calendar_year.setText(yearCalendar.getYearAange());
+            public void onCalendarDateChanged(String yearRange) {
+                popupwindow_calendar_year.setText(yearRange);
             }
         });
 
@@ -324,7 +373,7 @@ public class LionCalendarPopup extends PopupWindow {
             @Override
             public void onClick(View view) {
                 if (yearCalendar.getVisibility() == GONE) {
-                    yearCalendar.showCalendar(mYear);
+                    yearCalendar.showCalendarDayBgColor(mYear,R.drawable.calendar_date_focused);
                     yearCalendar.setVisibility(View.VISIBLE);
                     calendar.setVisibility(GONE);
                     monthCalendar.setVisibility(GONE);

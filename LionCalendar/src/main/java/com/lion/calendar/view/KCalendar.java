@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
 import com.lion.calendar.constant.SelectMoed;
 import com.lion.calendar.util.DateUtil;
@@ -85,6 +86,8 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
     // res
     // id)
     private Map<String, Integer> dayBgColorMap = new HashMap<String, Integer>(); // 储存某个日子的背景色
+
+    private static boolean mShowDaySelect;//是否显示已选日标记
 
     private static Context context;
 
@@ -360,6 +363,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                             view.setBackgroundColor(Color.TRANSPARENT);
                         }
 
+                        if (mShowDaySelect)
                         // 上面首先设置了一下默认的"当天"背景色，当有特殊需求时，才给当日填充背景色
                         // 设置日期背景色
                         if (dayBgColorMap.get(dates[i][j]) != null) {
@@ -907,6 +911,16 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
 
     public void setDayBgColorMap(Map<String, Integer> dayBgColorMap) {
         this.dayBgColorMap = dayBgColorMap;
+    }
+
+
+    /**
+     * 是否显示已选日标记
+     * @param showDaySelect
+     * @return
+     */
+    public void setShowDaySelect(boolean showDaySelect) {
+        this.mShowDaySelect = showDaySelect;
     }
 
     public void show() {

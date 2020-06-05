@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,7 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
+import com.lion.calendar.util.DateUtil;
 import com.lion.calendar.util.DisplayUtil;
 import com.lion.calendar.util.ToastUtil;
 
@@ -57,6 +60,8 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
     private LinearLayout currentCalendar; // 当前显示的月历
 
     private Map<String, Integer> dayBgColorMap = new HashMap<String, Integer>(); // 储存某个日子的背景色
+
+    private static boolean mShowMonthSelect;//是否显示已选月份标记
 
 
     private static Context context;
@@ -219,13 +224,18 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
                     view.setTextColor(COLOR_TX_CANT_SELECT_MONTH);
                 }
 
+                if (mShowMonthSelect){
                 // 设置选中日期背景色
-                if (dayBgColorMap.get(calendarYear + "-" + monthDates[i][j]) != null) {
+                String mapKey = calendarYear + "-" +monthDates[i][j];
+                if (Integer.parseInt(monthDates[i][j])<=10){
+                    mapKey = calendarYear + "-0"+monthDates[i][j];
+                }
+                if (dayBgColorMap.get(mapKey) != null) {
                     view.setTextColor(Color.WHITE);
-                    view.setBackgroundResource(dayBgColorMap.get(calendarYear + "-" + monthDates[i][j]));
+                    view.setBackgroundResource(dayBgColorMap.get(mapKey));
                 } else {
                     view.setBackgroundColor(Color.TRANSPARENT);
-                }
+                }}
                 month++;
             }
         }
@@ -238,11 +248,12 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      * @param date
      * @param color
      */
-    public void setCalendarDayBgColor(String date, int color) {
+    public void showCalendarDayBgColor(String date, int color) {
+        if (!TextUtils.isEmpty(date)&&!"0".equals(date)) {
+        removeAllBgColor();
         dayBgColorMap.put(date, color);
-        if (!TextUtils.isEmpty(date)) {
             try {
-                int years = Integer.parseInt(date.substring(0, date.indexOf("-")));
+                int years = DateUtil.getYearForDateSmart(date);//Integer.parseInt(date.substring(0, date.indexOf("-")));
                 setCandarYear(years);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -258,9 +269,9 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
      */
     public void removeAllBgColor() {
         dayBgColorMap.clear();
-        if (calendarYear == 0)
-            initCalendarYear();
-        show(calendarYear);
+//        if (calendarYear == 0)
+//            initCalendarYear();
+//        show(calendarYear);
     }
 
     /**
@@ -357,6 +368,15 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
         this.calendarYear = calendarYear;
     }
 
+
+    /**
+     * 是否显示已选月份标记
+     * @param showMonthSelect
+     * @return
+     */
+    public void setShowMonthSelect(boolean showMonthSelect) {
+        this.mShowMonthSelect = showMonthSelect;
+    }
 
     /***********************************************
      *

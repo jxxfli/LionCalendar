@@ -139,6 +139,7 @@ public class DateUtil {
     }
     /**
      * 获取日期里的年
+     * @param dateStr 日期
      * @param formatStr 格式
      */
     public static int getYearForDate(String dateStr,String formatStr) {
@@ -148,13 +149,42 @@ public class DateUtil {
             date = format.parse(dateStr);
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy");
             String s = format1.format(date);
-            Log.e("--->", "getYearForDate: " + s);
             return Integer.parseInt(s);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return -1;
+    }
 
+
+    /**
+     * 获取日期里的月
+     * @param dateStr 日期
+     * @param formatStr 格式
+     */
+    public static String getYearMonthForDate(String dateStr,String formatStr) {
+        SimpleDateFormat format = new SimpleDateFormat(formatStr);
+        Date date;
+        try {
+            date = format.parse(dateStr);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM");
+            String s = format1.format(date);
+            return s;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+    public static String getYearMonthForDateSmart(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) return "";
+        String formatStr;
+        String dateArr[] =dateStr.split("-");
+        if (dateArr.length>2){
+            formatStr="yyyy-MM-dd";
+        }else{
+            formatStr="yyyy-MM";
+        }
+        return getYearMonthForDate(dateStr,formatStr);
     }
 
     /**

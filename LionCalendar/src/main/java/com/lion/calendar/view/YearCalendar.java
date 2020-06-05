@@ -2,6 +2,7 @@ package com.lion.calendar.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -12,12 +13,18 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
+import com.lion.calendar.util.DisplayUtil;
 import com.lion.calendar.util.ToastUtil;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.lion.calendar.util.DateUtil.getLocalYear;
 
@@ -47,12 +54,16 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
     private OnCalendarClickListener onCalendarClickListener; //年历点击回调
     private OnCalendarDateChangedListener onCalendarDateChangedListener; // 年历翻页回调
 
-    private int calendarYear; // 年历年份
+    private int calendarYear; // 选中的年份
+    private int startYear; // 年历开始的年份
 
     private LinearLayout firstCalendar; // 第一个年历
     private LinearLayout secondCalendar; // 第二个年历
     private LinearLayout currentCalendar; // 当前显示的年历
 
+    private Map<String, Integer> dayBgColorMap = new HashMap<String, Integer>(); // 储存某个日子的背景色
+
+    private static boolean mShowYearSelect;//是否显示已选年份标记
 
     private static Context context;
 
@@ -113,7 +124,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
         double x = (s / 16);
         double m = 16 * x;
         double n = 1970 + m;
-        calendarYear = (int) n;
+        startYear = (int) n;
         setCalendarDate();
     }
 
@@ -132,19 +143,24 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
             content.addView(row);
             // 绘制年历上的列
             for (int j = 0; j < MONTH_COLS_TOTAL; j++) {
-                TextView view = new TextView(getContext());
-                view.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
-                //view.setBackgroundResource(R.drawable.calendar_day_bg);
-                row.addView(view);
+                RelativeLayout col = new RelativeLayout(getContext());
+                col.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
+                //col.setBackgroundResource(R.drawable.calendar_day_bg);
+                row.addView(col);
 
-                view.setGravity(Gravity.CENTER);
-                view.setTextSize(15);
-                view.setBackgroundColor(Color.TRANSPARENT);
+//                TextView view = new TextView(getContext());
+//                view.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
+//                //view.setBackgroundResource(R.drawable.calendar_day_bg);
+//                row.addView(view);
+//
+//                view.setGravity(Gravity.CENTER);
+//                view.setTextSize(15);
+//                view.setBackgroundColor(Color.TRANSPARENT);
 
                 // 给每一个年份加上监听
                 final int finalI = i;
                 final int finalJ = j;
-                view.setOnClickListener(new OnClickListener() {
+                col.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ViewGroup parent = (ViewGroup) v.getParent();
@@ -182,13 +198,28 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      */
     private void setCalendarDate() {
         // 根据循环会自动++
-        int year = calendarYear;
+        int year = startYear;
 
         // 填充年份TextView
         for (int i = 0; i < MONTH_ROWS_TOTAL; i++) {
             // 年历上的列
             for (int j = 0; j < MONTH_COLS_TOTAL; j++) {
-                TextView view = getYearView(i, j);
+                RelativeLayout group = getYearView(i, j);
+                group.setGravity(Gravity.CENTER);
+                TextView view = null;
+                if (group.getChildCount() > 0) {
+                    view = (TextView) group.getChildAt(0);
+                } else {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DisplayUtil.dip2px(getContext(), 40), DisplayUtil.dip2px(getContext(), 40));
+                    view = new TextView(getContext());
+                    view.setLayoutParams(params);
+                    view.setGravity(Gravity.CENTER);
+                    view.setTextSize(15);
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    group.addView(view);
+                }
+
+//                TextView view = getYearView(i, j);
 
                 yearDates[i][j] = year + "";
                 view.setText(yearDates[i][j]);
@@ -197,12 +228,43 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
                 } else {
                     view.setTextColor(COLOR_TX_CANT_SELECT_YEAR);
                 }
+
+                if (mShowYearSelect)
+                // 设置选中日期背景色
+                if (dayBgColorMap.get(yearDates[i][j]) != null) {
+                    view.setTextColor(Color.WHITE);
+                    view.setBackgroundResource(dayBgColorMap.get( yearDates[i][j]));
+                } else {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
                 year++;
             }
         }
     }
 
 
+
+    /**
+     * 设置日历具体某个日期的背景色
+     *
+     * @param year
+     * @param color
+     */
+    public void showCalendarDayBgColor(int year, int color) {
+        removeAllBgColor();
+        dayBgColorMap.put(year+"", color);
+        showCalendar(year);
+    }
+
+    /**
+     * 移除日历所有日期的背景色
+     */
+    public void removeAllBgColor() {
+        dayBgColorMap.clear();
+//        if (calendarYear == 0)
+//            initCalendarYear();
+//        showCalendar(calendarYear);
+    }
 
 
     /**
@@ -216,7 +278,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      * ondateChange接口回调
      */
     public interface OnCalendarDateChangedListener {
-        void onCalendarDateChanged(int year);
+        void onCalendarDateChanged(String yearRange);
     }
 
 
@@ -224,7 +286,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      * 下一个年历
      */
     public synchronized void nextYearCalendar() {
-        if (calendarYear + 16 > getLocalYear()) {
+        if (startYear + 16 > getLocalYear()) {
             ToastUtil.showShortToast(context, "已是最大年份");
             return;
         }
@@ -238,14 +300,14 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
         setInAnimation(push_left_in);
         setOutAnimation(push_left_out);
         // 改变年历年份
-        calendarYear = calendarYear + 16;
+        startYear = startYear + 16;
         //填充年历
         setCalendarDate();
         // 下翻到下一个年历
         showNext();
         // 回调
         if (onCalendarDateChangedListener != null) {
-            onCalendarDateChangedListener.onCalendarDateChanged(calendarYear);
+            onCalendarDateChangedListener.onCalendarDateChanged(getYearAange());
         }
     }
 
@@ -253,7 +315,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      * 上一个年历
      */
     public synchronized void lastYearCalendar() {
-        if (calendarYear - 16 < 1970) {
+        if (startYear - 16 < 1970) {
             ToastUtil.showShortToast(context, "已是最小年份");
             return;
         }
@@ -264,12 +326,12 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
         }
         setInAnimation(push_right_in);
         setOutAnimation(push_right_out);
-        calendarYear = calendarYear - 16;
+        startYear = startYear - 16;
         //填充年历
         setCalendarDate();
         showPrevious();
         if (onCalendarDateChangedListener != null) {
-            onCalendarDateChangedListener.onCalendarDateChanged(calendarYear);
+            onCalendarDateChangedListener.onCalendarDateChanged(getYearAange());
         }
     }
 
@@ -280,7 +342,10 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
      * @param col
      * @return
      */
-    private TextView getYearView(int row, int col) {
+    private RelativeLayout getYearView(int row, int col) {
+        return (RelativeLayout) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
+    }
+    private TextView getYearTextView(int row, int col) {
         return (TextView) ((LinearLayout) currentCalendar.getChildAt(row)).getChildAt(col);
     }
 
@@ -296,9 +361,19 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
     }
 
     public String getYearAange() {
-        return calendarYear + " - " + (calendarYear + 15);
+        return startYear + " - " + (startYear + 15);
     }
 
+
+
+    /**
+     * 是否显示已选年份标记
+     * @param showYearSelect
+     * @return
+     */
+    public void setShowYearSelect(boolean showYearSelect) {
+        this.mShowYearSelect = showYearSelect;
+    }
 
     /***********************************************
      *
