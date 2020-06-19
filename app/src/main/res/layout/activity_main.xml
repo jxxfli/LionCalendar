@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/bt_bgd"
-        android:text="（月）日历"
+        android:text="（月分）日历"
         android:textColor="#77330000" />
 
     <Button
@@ -24,7 +24,16 @@
         android:layout_height="55dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/bt_bgd"
-        android:text="（周）日历"
+        android:text="（周日）日历"
+        android:textColor="#77330000" />
+
+    <Button
+        android:id="@+id/allday_bt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bt_bgd"
+        android:text="日历"
         android:textColor="#77330000" />
 
     <TextView

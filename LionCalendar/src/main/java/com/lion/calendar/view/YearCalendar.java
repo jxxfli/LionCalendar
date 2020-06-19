@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
 import com.lion.calendar.util.DisplayUtil;
 import com.lion.calendar.util.ToastUtil;
@@ -82,7 +81,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
         // 实例化手势监听器
         gd = new GestureDetector(this);
         // 初始化日历翻动动画
-        push_left_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_left_in);
+        push_left_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_bottom_in_1);
         push_left_out = AnimationUtils.loadAnimation(getContext(), R.anim.push_left_out);
         push_right_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_right_in);
         push_right_out = AnimationUtils.loadAnimation(getContext(), R.anim.push_right_out);

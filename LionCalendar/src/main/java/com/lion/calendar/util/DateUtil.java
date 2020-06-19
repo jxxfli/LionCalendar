@@ -59,7 +59,7 @@ public class DateUtil {
         return strMonth;
     }
 
-    public static int getIntMothon(String monthStr) {
+    public static int getIntMonth(String monthStr) {
         int month = 0;
         switch (monthStr) {
             case "一月":
@@ -161,7 +161,7 @@ public class DateUtil {
 
 
     /**
-     * 获取日期里的月
+     * 获取日期里的年月
      *
      * @param dateStr   日期
      * @param formatStr 格式
@@ -190,6 +190,39 @@ public class DateUtil {
             formatStr = "yyyy-MM";
         }
         return getYearMonthForDate(dateStr, formatStr);
+    }
+
+
+    /**
+     * 获取日期里的月
+     *
+     * @param dateStr   日期
+     * @param formatStr 格式
+     */
+    public static Integer getMonthForDate(String dateStr, String formatStr) {
+        SimpleDateFormat format = new SimpleDateFormat(formatStr);
+        Date date;
+        try {
+            date = format.parse(dateStr);
+            SimpleDateFormat format1 = new SimpleDateFormat("MM");
+            String s = format1.format(date);
+            return Integer.parseInt(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static Integer getMonthForDateSmart(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) return -1;
+        String formatStr;
+        String dateArr[] = dateStr.split("-");
+        if (dateArr.length > 2) {
+            formatStr = "yyyy-MM-dd";
+        } else {
+            formatStr = "yyyy-MM";
+        }
+        return getMonthForDate(dateStr, formatStr);
     }
 
     /**
@@ -258,18 +291,23 @@ public class DateUtil {
     public static int getWeekAndDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        //获取当前时间为本月的第几天
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         //获取当前时间为本月的第几周
         int week = calendar.get(Calendar.WEEK_OF_MONTH);
         //获取当前时间为本周的第几天
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         if (day == 1) {
             day = 7;
-            week = week - 1;
+//            week = week - 1;
         } else {
             day = day - 1;
         }
-        //Log.e("--->", "今天是本月的第" + (week+1) + "周" + ",星期" + (day));
-        return week + 1;
+//        if (dayOfMonth==1){
+//            week=week+1;
+//        }
+        Log.e("--->", "今天是本月的第" + dayOfMonth + "天，第" + (week) + "周" + ",星期" + (day));
+        return week;
     }
 
 
@@ -284,4 +322,5 @@ public class DateUtil {
         String week = sdf.format(date);
         return week;
     }
+
 }

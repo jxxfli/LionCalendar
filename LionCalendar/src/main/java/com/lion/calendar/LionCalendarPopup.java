@@ -24,6 +24,7 @@ import java.util.Date;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.lion.calendar.constant.SelectMoed.MODE_ALLDAY;
 import static com.lion.calendar.constant.SelectMoed.MODE_MONTH;
 import static com.lion.calendar.constant.SelectMoed.MODE_WEEK;
 
@@ -162,12 +163,14 @@ public class LionCalendarPopup extends PopupWindow {
         setOutsideTouchable(true);
         setContentView(view);
         if (isDwon) {
+            setAnimationStyle(R.style.popwin_anim_trans_style);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 showAsDropDown(getAnchorView(), 0, 40, Gravity.CENTER_HORIZONTAL);
             } else {
                 showAsDropDown(getAnchorView());
             }
         } else {
+            setAnimationStyle(R.style.popwin_anim_scale_style);
             showAtLocation(mAnchorView, Gravity.CENTER, 0, 0);
         }
         update();
@@ -191,12 +194,11 @@ public class LionCalendarPopup extends PopupWindow {
         popupwindow_calendar_month.setText(calendar.getCalendarMonth() + "月");//1月
 
         if (!TextUtils.isEmpty(getSelectDate())) {
-
             try {
-                int years = Integer.parseInt(getSelectDate().substring(0, getSelectDate().indexOf("-")));
+                int years = DateUtil.getYearForDateSmart(getSelectDate());
 
-                if (getSelectMode() == MODE_WEEK) {
-                    int month = Integer.parseInt(getSelectDate().substring(getSelectDate().indexOf("-") + 1, getSelectDate().lastIndexOf("-")));
+                if (getSelectMode() == MODE_WEEK||getSelectMode()==MODE_ALLDAY) {
+                    int month = DateUtil.getMonthForDateSmart(getSelectDate());
 
                     //popupwindow_calendar_month.setText(getCNMothon(month));//一月
                     popupwindow_calendar_month.setText(month + "月");//1月
@@ -209,6 +211,8 @@ public class LionCalendarPopup extends PopupWindow {
                 e.printStackTrace();
             }
         }
+        //设置选中的月份
+        monthCalendar.showCalendarDayBgColor(DateUtil.getYearMonthForDateSmart(getSelectDate()), R.drawable.calendar_date_focused);
 
         //设置选择模式
         calendar.show(getSelectMode());
@@ -228,8 +232,6 @@ public class LionCalendarPopup extends PopupWindow {
             popupwindow_calendar_year.setVisibility(VISIBLE);
             popupwindow_calendar_month.setVisibility(VISIBLE);
         }
-        //设置选中的月份
-        monthCalendar.showCalendarDayBgColor(DateUtil.getYearMonthForDateSmart(getSelectDate()), R.drawable.calendar_date_focused);
 
 
             /*List<String> list = new ArrayList<String>(); //设置标记列表
@@ -241,7 +243,7 @@ public class LionCalendarPopup extends PopupWindow {
         calendar.setOnCalendarClickListener(new KCalendar.OnCalendarClickListener() {
 
             public void onCalendarClick(int row, int col, String dateFormat, int weekForMonth) {
-                int month = Integer.parseInt(dateFormat.substring(dateFormat.indexOf("-") + 1, dateFormat.lastIndexOf("-")));
+                int month = DateUtil.getMonthForDateSmart(dateFormat);
 
                 if (calendar.getCalendarMonth() - month == 1//跨年跳转
                         || calendar.getCalendarMonth() - month == -11) {
@@ -255,10 +257,10 @@ public class LionCalendarPopup extends PopupWindow {
                     calendar.removeAllBgColor();
                     calendar.setCalendarDayBgColor(dateFormat, R.drawable.calendar_date_focused);
 
-                    mYear = DateUtil.getYearForDate(dateFormat);
+                    mYear = DateUtil.getYearForDateSmart(dateFormat);
 
                     if (getOnCalendarClickListener() != null) {
-                        getOnCalendarClickListener().onWeekCalendarClick(dateFormat, weekForMonth);
+                        getOnCalendarClickListener().onWeekDayCalendarClick(mSelectMode,dateFormat, weekForMonth);
                     }
 
                     dismiss();
@@ -287,11 +289,11 @@ public class LionCalendarPopup extends PopupWindow {
                     monthCalendar.showCalendarDayBgColor(date, R.drawable.calendar_date_focused);
 
                     mYear = year;
-                    dismiss();
 
                     if (getOnCalendarClickListener() != null) {
                         getOnCalendarClickListener().onMonthCalendarClick(date);
                     }
+                    dismiss();
                 } else {
                     monthCalendar.setVisibility(GONE);
                     calendar.setVisibility(VISIBLE);

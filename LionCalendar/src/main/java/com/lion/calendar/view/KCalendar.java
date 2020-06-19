@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
 import com.lion.calendar.constant.SelectMoed;
 import com.lion.calendar.util.DateUtil;
@@ -32,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.lion.calendar.constant.SelectMoed.MODE_MONTH;
+import static com.lion.calendar.constant.SelectMoed.MODE_ALLDAY;
 import static com.lion.calendar.util.DateUtil.getDayForDate;
 import static com.lion.calendar.util.DateUtil.getLocalDay;
 import static com.lion.calendar.util.DateUtil.getLocalMonth;
@@ -91,7 +90,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
 
     private static Context context;
 
-    private SelectMoed mSelectMode = MODE_MONTH;//选择模式
+    private SelectMoed mSelectMode = MODE_ALLDAY;//选择模式
 
     public KCalendar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -208,7 +207,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                         if (onCalendarClickListener != null) {
                             //检查日期是否小于系统时间
                             if (checkDate(getDayForDate(dates[row][col]))) {
-                                if (mSelectMode == MODE_MONTH) {
+                                if (mSelectMode == MODE_ALLDAY) {
                                     //月选择模式
                                     onCalendarClickListener.onCalendarClick(row, col, dates[row][col], DateUtil.getWeekAndDay(DateUtil.getStrForDate(dates[row][col])));
                                 } else {
@@ -283,7 +282,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                         Date lastDate = new Date(year, month, lastMonthDay);
 
                         //月选择模式
-                        if (mSelectMode == MODE_MONTH) {
+                        if (mSelectMode == MODE_ALLDAY) {
                             view.setTextColor(COLOR_TX_OTHER_MONTH_DAY);
                         } else {//周日选择模式
                             if ("周日".equals(DateUtil.getWeek(lastDate))) {//星期天
@@ -331,16 +330,16 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
 
 
                         //月选择模式
-                        if (mSelectMode == MODE_MONTH) {
-                            // 当天
-                            if (thisday.getDate() == day && thisday.getMonth() == calendarday.getMonth() && thisday.getYear() == calendarday.getYear()) {
-                                //view.setText("今天");
-                                //view.setTextColor(COLOR_TX_WEEK_TITLE);
-                                view.setText(day + "");
-                                view.setTextColor(Color.parseColor("#ffcc3333"));
-
-                                view.setBackgroundColor(Color.TRANSPARENT);
-                            } else {
+                        if (mSelectMode == MODE_ALLDAY) {
+                             //当天
+//                            if (thisday.getDate() == day && thisday.getMonth() == calendarday.getMonth() && thisday.getYear() == calendarday.getYear()) {
+//                                //view.setText("今天");
+//                                //view.setTextColor(COLOR_TX_WEEK_TITLE);
+//                                view.setText(day + "");
+//                                view.setTextColor(Color.parseColor("#ffcc3333"));
+//
+//                                view.setBackgroundColor(Color.TRANSPARENT);
+//                            } else {
                                 //检查日期是否小于系统时间
                                 if (checkDate(day)) {
                                     view.setTextColor(COLOR_TX_THIS_MONTH_DAY);
@@ -348,7 +347,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                                     view.setTextColor(COLOR_TX_WEEKMODE_MONTH_DAY);
                                 }
                                 view.setBackgroundColor(Color.TRANSPARENT);
-                            }
+//                            }
                         } else {//周日选择模式
                             if ("周日".equals(DateUtil.getWeek(curresDate))) {//星期天
                                 //检查日期是否小于系统时间
@@ -387,7 +386,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
                         view.setText(Integer.toString(nextMonthDay));
 
                         //月选择模式
-                        if (mSelectMode == MODE_MONTH) {
+                        if (mSelectMode == MODE_ALLDAY) {
                             view.setTextColor(COLOR_TX_OTHER_MONTH_DAY);
                         } else {//周日选择模式
                             if ("周日".equals(DateUtil.getWeek(nextDate))) {//星期天

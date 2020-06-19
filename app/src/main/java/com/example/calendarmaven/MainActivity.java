@@ -13,9 +13,11 @@ import com.lion.calendar.interf.OnLionCalendarClickListener;
 public class MainActivity extends Activity implements OnLionCalendarClickListener {
     String monthDate = null;// 设置默认选中的日期  格式为 “2014-04” 标准DATE格式
     String weekDate = null;// 设置默认选中的日期  格式为 “2014-04-05” 标准DATE格式
+    String dayDate = null;// 设置默认选中的日期  格式为 “2014-04-05” 标准DATE格式
 
     Button mMonthBt;
     Button mWeekBt;
+    Button mAllDay;
 
     CheckBox mYear;
     CheckBox mMonth;
@@ -51,6 +53,22 @@ public class MainActivity extends Activity implements OnLionCalendarClickListene
                 LionCalendarPopup.getInstance(MainActivity.this)
                         .setSetelectMode(SelectMoed.MODE_WEEK)
                         .setSetelectDate(weekDate)
+                        .setShowAsDropDown(v)
+                        //非必须参数
+                        .setShowYearSelect(mYear.isChecked())
+                        .setShowMonthSelect(mMonth.isChecked())
+                        .setShowDaySelect(mDay.isChecked())
+                        .setOnCalendarClickListener(MainActivity.this)
+                        .show();
+            }
+        });
+        mAllDay = findViewById(R.id.allday_bt);
+        mAllDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LionCalendarPopup.getInstance(MainActivity.this)
+                        .setSetelectMode(SelectMoed.MODE_ALLDAY)
+                        .setSetelectDate(dayDate)
                         .setShowAsCenter(v)
                         //非必须参数
                         .setShowYearSelect(mYear.isChecked())
@@ -66,13 +84,18 @@ public class MainActivity extends Activity implements OnLionCalendarClickListene
     @Override
     public void onMonthCalendarClick(String dateFormat) {
         monthDate = dateFormat;
-        mMonthBt.setText("（月）日期：" + dateFormat);
+        mMonthBt.setText("（月份）日历：" + dateFormat);
     }
 
     @Override
-    public void onWeekCalendarClick(String dateFormat, int weekForMonth) {
-        weekDate = dateFormat;
-        mWeekBt.setText("（周）日期：" + dateFormat + "\t第" + weekForMonth + "周");
+    public void onWeekDayCalendarClick(SelectMoed selectMoed, String dateFormat, int weekForMonth) {
+        if (selectMoed == SelectMoed.MODE_WEEK) {
+            weekDate = dateFormat;
+            mWeekBt.setText("（周日）日历：" + dateFormat + "\t第" + weekForMonth + "周");
+        }else if (selectMoed==SelectMoed.MODE_ALLDAY){
+            dayDate= dateFormat;
+            mAllDay.setText("日历：" + dateFormat );
+        }
     }
 
 }

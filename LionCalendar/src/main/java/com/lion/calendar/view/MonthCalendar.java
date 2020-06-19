@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.lion.calendar.LionCalendarPopup;
 import com.lion.calendar.R;
 import com.lion.calendar.util.DateUtil;
 import com.lion.calendar.util.DisplayUtil;

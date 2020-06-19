@@ -7,4 +7,16 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="popwin_anim_trans_style">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+
+    <style name="popwin_anim_scale_style">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowEnterAnimation">@anim/popup_enter_scale</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit_scale</item>
+    </style>
 </resources>

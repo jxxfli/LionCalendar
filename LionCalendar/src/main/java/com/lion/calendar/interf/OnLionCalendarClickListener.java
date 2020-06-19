@@ -1,5 +1,7 @@
 package com.lion.calendar.interf;
 
+import com.lion.calendar.constant.SelectMoed;
+
 /**
  * 日记点击事件
  * @Author Lino-082
@@ -8,5 +10,5 @@ package com.lion.calendar.interf;
 public interface OnLionCalendarClickListener {
     void onMonthCalendarClick(String dateFormat);
 
-    void onWeekCalendarClick(String dateFormat, int weekForMonth);
+    void onWeekDayCalendarClick(SelectMoed selectMoed,String dateFormat, int weekForMonth);
 }
