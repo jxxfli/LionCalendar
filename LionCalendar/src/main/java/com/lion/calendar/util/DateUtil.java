@@ -3,6 +3,7 @@ package com.lion.calendar.util;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -323,4 +324,14 @@ public class DateUtil {
         return week;
     }
 
+    /**
+     * 格式化int 数字不足位数前面补0
+     *
+     * @param day
+     * @return
+     */
+    public static String formatInt(int day) {
+        DecimalFormat decimalFormat = new DecimalFormat("00");
+        return decimalFormat.format(day);
+    }
 }

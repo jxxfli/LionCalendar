@@ -291,7 +291,8 @@ public class LionCalendarPopup extends PopupWindow {
                     mYear = year;
 
                     if (getOnCalendarClickListener() != null) {
-                        getOnCalendarClickListener().onMonthCalendarClick(date);
+                        String dateFormat=year+"-"+DateUtil.formatInt(month);
+                        getOnCalendarClickListener().onMonthCalendarClick(dateFormat);
                     }
                     dismiss();
                 } else {
