@@ -1,6 +1,7 @@
 # LionCalendar
 a private lib of calendar
 
+![image](https://img.shields.io/badge/LionCalendar-v1.0.2-green.svg)
 [![GitHub stars](https://img.shields.io/github/stars/jxxfli/LionCalendar)](https://github.com/jxxfli/LionCalendar/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/jxxfli/LionCalendar)](https://github.com/jxxfli/LionCalendar/network)
 [![GitHub issues](https://img.shields.io/github/issues/jxxfli/LionCalendar)](https://github.com/jxxfli/LionCalendar/issues)
