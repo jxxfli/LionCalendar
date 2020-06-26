@@ -34,15 +34,15 @@ public class MainActivity extends Activity implements OnLionCalendarClickListene
         mMonthBt = (Button) findViewById(R.id.month_bt);
         mMonthBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                LionCalendarPopup.getInstance(MainActivity.this)
-                        .setSetelectMode(SelectMoed.MODE_MONTH)
-                        .setSetelectDate(monthDate)
-                        .setShowAsDropDown(v)
+                LionCalendarPopup.getInstance(MainActivity.this)//上下文
+                        .setSetelectMode(SelectMoed.MODE_MONTH)//选择模式 MODE_WEEK：周 MODE_MONTH：月 MODE_ALLDAY：所有日期
+                        .setSetelectDate(monthDate)//设置选中的日期
+                        .setShowAsDropDown(v)//显示在指定控件下方 .setShowAsCenter(v)//显示在屏幕中间
                         //非必须参数
-                        .setShowYearSelect(mYear.isChecked())
-                        .setShowMonthSelect(mMonth.isChecked())
-                        .setShowDaySelect(mDay.isChecked())
-                        .setOnCalendarClickListener(MainActivity.this)
+                        .setShowYearSelect(mYear.isChecked())//年选中状态显示
+                        .setShowMonthSelect(mMonth.isChecked())//月选中状态显示
+                        .setShowDaySelect(mDay.isChecked())//日选中状态显示
+                        .setOnCalendarClickListener(MainActivity.this)//设置选中回调
                         .show();
             }
         });
