@@ -224,10 +224,7 @@ public class MonthCalendar extends ViewFlipper implements GestureDetector.OnGest
 
                 if (mShowMonthSelect) {
                     // 设置选中日期背景色
-                    String mapKey = calendarYear + "-" + monthDates[i][j];
-                    if (Integer.parseInt(monthDates[i][j]) <= 10) {
-                        mapKey = calendarYear + "-0" + monthDates[i][j];
-                    }
+                    String mapKey = calendarYear + "-" + DateUtil.formatInt(Integer.parseInt(monthDates[i][j]));
                     if (dayBgColorMap.get(mapKey) != null) {
                         view.setTextColor(Color.WHITE);
                         view.setBackgroundResource(dayBgColorMap.get(mapKey));
