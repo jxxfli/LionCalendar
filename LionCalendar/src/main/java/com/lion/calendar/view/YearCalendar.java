@@ -31,6 +31,7 @@ import static com.lion.calendar.util.DateUtil.getLocalYear;
  * 年历控件
  *
  * @author Lion-082
+ * @Date 2020/6/2 13:54
  */
 @SuppressWarnings("deprecation")
 public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestureListener {
@@ -81,7 +82,7 @@ public class YearCalendar extends ViewFlipper implements GestureDetector.OnGestu
         // 实例化手势监听器
         gd = new GestureDetector(this);
         // 初始化日历翻动动画
-        push_left_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_bottom_in_1);
+        push_left_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_left_in);
         push_left_out = AnimationUtils.loadAnimation(getContext(), R.anim.push_left_out);
         push_right_in = AnimationUtils.loadAnimation(getContext(), R.anim.push_right_in);
         push_right_out = AnimationUtils.loadAnimation(getContext(), R.anim.push_right_out);
